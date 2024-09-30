@@ -1,27 +1,40 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
-:root {
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
-}
+} */
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+} */
+
+html, body {
+  background-color: whitesmoke;
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: Arial, sans-serif; /* Opcional, você pode definir uma fonte global */
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+h1,
+h2,
+h3 {
+    margin: 0;
 }
 
-@layer utilities {
+/* body {
+  margin: 0;
+} */
+
+
+/* @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-}
+} */
