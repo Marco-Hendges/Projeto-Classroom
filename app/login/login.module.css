@@ -1,11 +1,11 @@
 /* Estilo para o container principal */
 .loginContainer {
+    background-color: whitesmoke;
+    min-height: 100vh; /* Para garantir que ocupe a tela toda */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh;
-    /* background-color: #f0f0f0; */
-}
+  }
 
 /* Estilo para o formulário */
 .loginForm {

@@ -1,8 +1,44 @@
-// app/home.tsx
-import React from 'react';
+'use client';  // Adicione esta linha
+
+import React, { useEffect, useState } from 'react';
 import styles from './home.module.css';
 
+interface Class {
+    id: number;
+    name: string;
+    teacher: {
+        id: number;
+        name: string;
+        photo: string;
+    };
+}
+
 const Home: React.FC = () => {
+    const [classes, setClasses] = useState<Class[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const userId = localStorage.getItem('userId');
+
+        if (userId) {
+            fetch(`http://localhost:4000/home/${userId}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        setClasses(data.data);
+                    } else {
+                        setError(data.error || 'Erro ao buscar as classes');
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                    setError('Ocorreu um erro ao buscar as classes');
+                });
+        } else {
+            setError('Usuário não encontrado');
+        }
+    }, []);
+
     return (
         <>
             <link
@@ -11,22 +47,20 @@ const Home: React.FC = () => {
             />
             <header>
                 <nav className={styles.navbar}>
-                    <section className={styles.navbarBrand}>
+                    <div className={styles.navbarBrand}>
                         <span className="material-icons menu-icon">menu</span>
-                        <img
-                            className={styles.brandLogo}
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/368px-Google_2015_logo.svg.png"
-                            alt="Google Logo"
-                        />
-                        <span className={styles.brandText}>Sala de Aula</span>
-                    </section>
-                    <section className={styles.navbarMenu}>
-                        <span className="material-icons add-icon">add</span>
-                        <span className="material-icons apps-icon">apps</span>
+                        <div className={styles.headerNome}>
+                            <img src="https://www.gstatic.com/classroom/web/10th_anniversary.png" className={styles.brandLogo} alt="Logotipo de aniversário de 10 anos do Google Sala de Aula com um chapéu de festa e balões animados" data-iml="1543" />
+                            <span className={styles.brandText}>Google Sala de Aula</span>
+                        </div>
+                    </div>
+                    <div className={styles.navbarMenu}>
+                        <span className={`material-icons add-icon ${styles.marginIcon}`}>add</span>
+                        <span className={`material-icons add-icon ${styles.marginIcon}`}>apps</span>
                         <span className={`material-icons big-img ${styles.accountIcon}`}>
                             account_circle
                         </span>
-                    </section>
+                    </div>
                 </nav>
             </header>
             <main className={styles.main}>
@@ -41,19 +75,29 @@ const Home: React.FC = () => {
                     </div>
                 </section>
                 <section className={styles.cardSection}>
-                    {/* Repetir o bloco de cards conforme necessário */}
-                    {['Computer Networks', 'OOPS', 'DBMS', 'AI', 'C Programming', 'OOPS Lab', 'DBMS Lab', 'AI Lab', 'C Lab'].map((subject, index) => (
-                        <div className={styles.card} key={index}>
+                    {error && <p className={styles.errorMessage}>{error}</p>}
+                    {classes.map((subject) => (
+                        <div className={styles.card} key={subject.id}>
                             <div className={styles.cardHeader}>
-                                <h1 className={styles.subjectName}>{subject}</h1>
-                                <h2 className={styles.section}>CSE B</h2>
-                                <h3 className={styles.teacherName}>{`${index % 2 === 0 ? 'John' : 'Jane'} Doe`}</h3>
-                                <span className={`material-icons ${styles.teacherIcon}`}>person</span>
+                                <h1 className={styles.subjectName}>{subject.name}</h1>
+                                <h3 className={styles.teacherName}>{subject.teacher.name}</h3>
+                                <img
+                                    src={`http://localhost:4000/images/${subject.teacher.photo}`}
+                                    alt={`Foto do(a) professor(a) ${subject.teacher.name}`}
+                                    className={styles.teacherIcon}
+                                />
                             </div>
                             <div className={styles.cardBody}></div>
                             <div className={styles.cardFooter}>
-                                <span className="material-icons-outlined assignment-icon">assignment_ind</span>
-                                <span className="material-icons-outlined folder-icon" style={{paddingLeft: '10px'}}>folder</span>
+                                <span className="material-icons-outlined assignment-icon">
+                                    assignment_ind
+                                </span>
+                                <span
+                                    className="material-icons-outlined folder-icon"
+                                    style={{ paddingLeft: '10px' }}
+                                >
+                                    folder
+                                </span>
                             </div>
                         </div>
                     ))}

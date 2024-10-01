@@ -16,21 +16,23 @@ const Login: React.FC = () => {
     setError(null);  // Reseta o erro anterior, se houver
 
     try {
-      // const response = await fetch('/api/login', {  // Substitua com o endpoint real da sua API
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ email, password }),
-      // });
+      const response = await fetch('http://localhost:4000/login', {  // Use a URL completa do backend
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-      // if (response.ok) {
-        // Se a API retornar sucesso, redireciona para /home
-        router.push('/home');
-      // } else {
-      //   const errorData = await response.json();
-      //   setError(errorData.message || 'Falha no login');  // Mostra o erro da API
-      // }
+      const data = await response.json();
+      if (data.success) {
+          // Salva o userId no localStorage
+          localStorage.setItem('userId', data.user.id);
+          // Redireciona para a página Home
+          router.push('/home');
+      } else {
+          setError(data.error || 'Falha no login');
+      }
     } catch (err) {
       setError('Ocorreu um erro inesperado. Tente novamente mais tarde.');
       console.error(err);

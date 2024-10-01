@@ -21,36 +21,49 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 0.0625rem solid #e0e0e0;
-    height: 85px;
+    height: 65px;
     padding: 20px;
     box-sizing: border-box;
 }
 
 .brandLogo {
-    width: 74px;
-    height: 24px;
+    max-width: 28px;
+    /* height: 24px; */
 }
 
 .brandText {
     font-family: "Product Sans", Arial, Helvetica, sans-serif;
     font-size: 1.38125rem;
     color: #5f6368;
+    white-space: nowrap;
+    margin-left: 10px;
 }
 
 .navbarBrand {
     display: flex;
-    justify-content: space-evenly;
+    /* justify-content: space-between; */
+    width: 50vw;
     align-items: center;
-    width: 250px;
+    flex-direction: row;
+}
+
+.headerNome {
+    display: flex;
+    align-items: flex-end;
+    margin-left: 20px;
 }
 
 .navbarMenu {
     display: flex;
-    justify-content: space-evenly;
+    width: 50vw;
     align-items: center;
-    width: 200px;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
+.marginIcon{
+    margin-right: 15px;
+}
 .big-img {
     font-size: 45px;
 }
@@ -148,8 +161,17 @@
 }
 
 .subjectName {
-    font-size: 30px;
-    line-height: 1.75rem;
+    /* font-size: 30px;
+    line-height: 1.75rem; */
+    display: -webkit-box;           /* Para suporte a navegadores que utilizam o prefixo WebKit */
+    -webkit-box-orient: vertical;  /* Orientação vertical do box */
+    -webkit-line-clamp: 1;         /* Limita a 1 linha */
+    overflow: hidden;               /* Oculta o conteúdo que excede */
+    text-overflow: ellipsis;       /* Adiciona reticências */
+}
+
+.teacherName {
+    font-size: 18px;
 }
 
 .section {
@@ -165,7 +187,8 @@
     background-size: contain !important;
     color: #717171 !important;
     bottom: -30px !important;
-    right: 30px !important;
+    right: 15px !important;
+    height: 85px;
 }
 
 .assignmentIcon,
